@@ -110,9 +110,10 @@ const addButton = function(event) {
   // This line will grab the text from the input box
   const stock = $('#stock-input').val().trim().toUpperCase();
   if (validationList.includes(stock.toUpperCase())) {
+      if (!stocks.includes(stock.toUpperCase())){
   // The stock from the text box is then added to our array
   stocks.push(stock);
-
+      }
   // Deletes the contents of the input
   $('#stock-input').val('');
   }
