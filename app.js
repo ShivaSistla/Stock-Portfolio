@@ -1,16 +1,9 @@
 // Initial array of stocks
 const stocks = ['FB', 'AAPL', 'TSLA', 'GOOGL','GE','MSFT'];
 const validationList = [];
+const stockURL = `https://api.iextrading.com/1.0/ref-data/symbols`
 // displaystockInfo function re-renders the HTML to display the appropriate content
-const displayStockInfo = function () {
-
-  // Grab the stock symbol from the button clicked and add it to the queryURL
-  const stock = $(this).attr('data-name');
-  const queryURL = `https://api.iextrading.com/1.0/stock/${stock}/batch?types=quote,logo,news&range=1m&last=1`;
-  const stockURL = `https://api.iextrading.com/1.0/ref-data/symbols`
-  // Creating an AJAX call for the specific stock button being clicked
-
-  $.ajax({
+$.ajax({
     url: stockURL,
     method: 'GET'
   }).then(function(response) {
@@ -19,6 +12,13 @@ const displayStockInfo = function () {
     }  
   });
 
+const displayStockInfo = function () {
+    $('#stocks-view').empty();
+  // Grab the stock symbol from the button clicked and add it to the queryURL
+  const stock = $(this).attr('data-name');
+  const queryURL = `https://api.iextrading.com/1.0/stock/${stock}/batch?types=quote,logo,news&range=1m&last=1`;
+ 
+  // Creating an AJAX call for the specific stock button being clicked
 
   $.ajax({
     url: queryURL,
@@ -43,7 +43,6 @@ const displayStockInfo = function () {
   
     // Creating an element to display the stock symbol
     const logoHolder = $('<p>').html(`<img src="${stockLogo}" alt="${stockLogo}"></img>`);
-    console.log(logoHolder);
 
     // Appending the symbol to our stockDiv
     stockDiv.append(logoHolder);
@@ -109,7 +108,7 @@ const addButton = function(event) {
   event.preventDefault();
 
   // This line will grab the text from the input box
-  const stock = $('#stock-input').val().trim();
+  const stock = $('#stock-input').val().trim().toUpperCase();
   if (validationList.includes(stock.toUpperCase())) {
   // The stock from the text box is then added to our array
   stocks.push(stock);
